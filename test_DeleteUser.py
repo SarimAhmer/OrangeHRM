@@ -7,25 +7,16 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
 from test_Login import OrangeHRMLogin
-
+from test_Sidebar import SideBar
 
 class DeleteUser:
     def __init__(self,driver):
         self.driver = driver
         self.orangeHRM = OrangeHRMLogin(driver)
         self.orangeHRM.login("Admin", "admin123")
+        self.sidebar = SideBar(driver)
+        self.sidebar.SideBarOptions("adminside")
 
-
-    def GoToAdminPage(self):
-        WebDriverWait(self.driver, 10).until(
-            EC.presence_of_element_located((By.XPATH, '//*[@id="app"]/div[1]/div[1]/aside/nav/div[2]/ul/li[1]/a'))
-        )
-        admin = self.driver.find_element(By.XPATH, '//*[@id="app"]/div[1]/div[1]/aside/nav/div[2]/ul/li[1]/a')
-        admin.click()
-        time.sleep(2)
-        WebDriverWait(self.driver, 10).until(
-            EC.presence_of_element_located((By.XPATH, '//*[@id="app"]/div[1]/div[2]/div[2]/div/div[2]/div[3]/div/div[2]/div[1]/div/div[6]/div/button[1]'))
-        )
 
     def delete_user(self):
         for i in range(50):
@@ -55,7 +46,6 @@ if __name__ == '__main__':
 
     userDelete = DeleteUser(driver)
 
-    userDelete.GoToAdminPage()
     userDelete.delete_user()
 
     driver.close()

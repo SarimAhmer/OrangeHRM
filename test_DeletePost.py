@@ -5,6 +5,7 @@ import time
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from test_Login import OrangeHRMLogin
+from test_Sidebar import SideBar
 
 
 
@@ -13,13 +14,11 @@ class DeletePost:
         self.driver = driver
         self.OrangeHRMLogin = OrangeHRMLogin(driver)
         self.OrangeHRMLogin.login("Admin", "admin123")
-        self.Buzz = self.driver.find_element(By.XPATH, '//*[@id="app"]/div[1]/div[1]/aside/nav/div[2]/ul/li[12]/a')
-        self.Buzz.click()
-        time.sleep(5)
-
+        self.SideBar = SideBar(driver)
+        self.SideBar.SideBarOptions("Buzz")
 
     def postDel(self):
-        for i in range(10):
+        for i in range(50):
             WebDriverWait(self.driver, 10).until(
                 EC.presence_of_element_located((By.XPATH, '//*[@id="app"]/div[1]/div[2]/div[2]/div/div[1]/div/div[3]/div[1]/div/div[1]/div/div[2]/li/button'))
             )

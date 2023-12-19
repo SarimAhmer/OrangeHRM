@@ -9,7 +9,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from test_Login import OrangeHRMLogin
 from selenium.webdriver.common.action_chains import ActionChains
-
+from test_Sidebar import SideBar
 
 
 class UserClaim:
@@ -17,8 +17,8 @@ class UserClaim:
         self.driver = driver
         self.OrangeHRMLogin = OrangeHRMLogin(driver)
         self.OrangeHRMLogin.login("Admin", "admin123")
-        claim = driver.find_element(By.XPATH, '//*[@id="app"]/div[1]/div[1]/aside/nav/div[2]/ul/li[11]/a')
-        claim.click()
+        self.sidebar = SideBar(driver)
+        self.sidebar.SideBarOptions("Claim")
     def submitClaim(self):
         WebDriverWait(self.driver, 10).until(
             EC.presence_of_element_located((By.XPATH, '//*[@id="app"]/div[1]/div[2]/div[2]/div/div/form/div[1]/div/div/div/div[2]/div/div/input'))

@@ -21,13 +21,12 @@ class AddMultiUser:
         WebDriverWait(self.driver, 10).until(
             EC.presence_of_element_located((By.XPATH, '//*[@id="app"]/div[1]/div[1]/aside/nav/div[2]/ul/li[1]/a'))
         )
-        admin = self.driver.find_element(By.XPATH, '//*[@id="app"]/div[1]/div[1]/aside/nav/div[2]/ul/li[1]/a')
-        admin.click()
-
+        self.sidebar = SideBar(driver)
+        self.sidebar.SideBarOptions("adminside")
         self.Names = []
 
     def GenerateNames(self):
-        for i in range(5):
+        for i in range(20):
             self.Names.append(names.get_first_name() + "123")
 
 

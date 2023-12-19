@@ -2,7 +2,6 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 import time
-import names
 import random
 import string
 from selenium.webdriver.support.wait import WebDriverWait
@@ -17,11 +16,8 @@ class AddUser:
         self.driver = driver
         self.OrangeHRMLogin = OrangeHRMLogin(driver)
         self.OrangeHRMLogin.login("Admin", "admin123")
-        WebDriverWait(self.driver, 10).until(
-            EC.presence_of_element_located((By.XPATH, '//*[@id="app"]/div[1]/div[1]/aside/nav/div[2]/ul/li[1]/a'))
-        )
-        admin = self.driver.find_element(By.XPATH, '//*[@id="app"]/div[1]/div[1]/aside/nav/div[2]/ul/li[1]/a')
-        admin.click()
+        self.sidebar = SideBar(driver)
+        self.sidebar.SideBarOptions("adminside")
 
     # create webdriver object and login
     def useradd(self):
@@ -46,6 +42,8 @@ class AddUser:
         time.sleep(2)
         name.send_keys(Keys.ARROW_DOWN)
         name.send_keys(Keys.RETURN)
+        name.send_keys(Keys.LEFT_CONTROL, 'a')
+        name.send_keys(Keys.LEFT_CONTROL, 'c')
 
         status = self.driver.find_element(By.XPATH,
                                      '//*[@id="app"]/div[1]/div[2]/div[2]/div/div/form/div[1]/div/div[3]/div/div[2]/div/div/div[1]')
@@ -54,9 +52,9 @@ class AddUser:
         ActionChains(self.driver).move_to_element(status).send_keys(Keys.RETURN).perform()
 
         userName = self.driver.find_element(By.XPATH,
-                                       '//*[@id="app"]/div[1]/div[2]/div[2]/div/div/form/div[1]/div/div[4]/div/div[2]/input')
-        self.Name = names.get_first_name() + "123"
-        userName.send_keys(self.Name)
+                                            '//*[@id="app"]/div[1]/div[2]/div[2]/div/div/form/div[1]/div/div[4]/div/div[2]/input')
+        userName.send_keys(Keys.LEFT_CONTROL, 'v')
+        self.Name = userName.get_attribute('value')
 
         userPwd = self.driver.find_element(By.XPATH,
                                       '//*[@id="app"]/div[1]/div[2]/div[2]/div/div/form/div[2]/div/div[1]/div/div[2]/input')
@@ -85,9 +83,9 @@ class AddUser:
 
         createdUser = self.driver.find_element(By.XPATH,
                                           '//*[@id="app"]/div[1]/div[2]/div[2]/div/div[2]/div[3]/div/div[2]/div/div/div[2]/div')
-        userCheck = createdUser.text
-        print(userCheck)
-        assert userCheck == self.Name, "Username not found"
+        self.userCheck = createdUser.text
+        print(self.userCheck)
+        return self.userCheck
 
 
 

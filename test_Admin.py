@@ -5,6 +5,7 @@ import time
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from test_Login import OrangeHRMLogin
+from test_Sidebar import SideBar
 
 
 class AdminTest:
@@ -15,11 +16,9 @@ class AdminTest:
 
     def doLogin(self):
         self.OrangeHRMLogin.login("Admin", "admin123")
-        WebDriverWait(self.driver, 10).until(
-            EC.presence_of_element_located((By.XPATH, '//*[@id="app"]/div[1]/div[1]/aside/nav/div[2]/ul/li[1]/a'))
-        )
-        admin = self.driver.find_element(By.XPATH, '//*[@id="app"]/div[1]/div[1]/aside/nav/div[2]/ul/li[1]/a')
-        admin.click()
+        self.SideBar = SideBar(self.driver)
+        self.SideBar.SideBarOptions("adminside")
+
 
     def SearchUser(self):
         WebDriverWait(self.driver, 10).until(
